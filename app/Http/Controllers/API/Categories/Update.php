@@ -3,38 +3,34 @@
 namespace App\Http\Controllers\API\Categories;
 
 use App\Http\Controllers\API\BaseAPI;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Validator;
+use App\Models\ModelCategories;
 
 class Update extends BaseAPI
 {
-    protected DBRepo $dbRepo;
+    protected $payloadRules = [
+        'name' => 'string|max:255',
+    ];
 
-    public function __construct(DBRepo $dbRepo)
+    public function main($id = null)
     {
-        $this->dbRepo = $dbRepo ?? new DBRepo();
-    }
+        // Check id
+        $find = ModelCategories::find($id);
 
-    public function index($id = null, Request $request, Response $response)
-    {
-        $data = $request->all();
+        if (!$find) {
+            return $this->errorResponse(...[
+                'message' => 'ID not found',
+                'statusCode' => 404
+            ]);
+        }
 
-        // Validasi data
-        $validator = $this->validateData($data);
+        $dbRepo = new DBRepo();
+        $update = $dbRepo->update($id, $this->payload);
 
-        if ($validator->fails()) {
-            return $this->sendErrorResponse('payload tidak valid', $validator->error(), 400);
+        if (!$update->status) {
+            return $this->errorResponse('Server error. Failed to update data');
         }
 
         // Kalau validasi berhasil
-        return $this->dbRepo->updateCategory($id, $data);
-    }
-
-    protected function validateData(array $data)
-    {
-        return Validator::make($data, [
-            'name' => 'string|max:255',
-        ]);
+        return $this->successResponse('Success update data');
     }
 }

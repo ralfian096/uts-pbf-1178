@@ -23,7 +23,7 @@ class JWTAuthMiddleware
             // Otentikasi client
             if (!$user = JWTAuth::parseToken()->authenticate()) {
                 return response()->json([
-                    'message' => 'anda belum login'
+                    'message' => 'You are not logged yet'
                 ], 401);
             }
 
@@ -31,7 +31,7 @@ class JWTAuthMiddleware
             if ($role != 'all') {
                 if ($user->role != $role) {
                     return response()->json([
-                        'message' => 'anda tidak punya hak akses'
+                        'message' => 'You do not have right to access this resource'
                     ], 403);
                 }
             }
@@ -40,7 +40,7 @@ class JWTAuthMiddleware
         } catch (JWTException $e) {
 
             return response()->json([
-                'message' => 'anda belum login'
+                'message' => 'You are not logged yet'
             ], 401);
         }
     }

@@ -3,20 +3,22 @@
 namespace App\Http\Controllers\API\Products;
 
 use App\Http\Controllers\API\BaseAPI;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class Read extends BaseAPI
 {
-    protected DBRepo $dbRepo;
+    protected $payloadRules = [
+        'name' => 'required|string|max:255',
+        'price' => 'required|integer|max:99999999999',
+        'category_id' => 'required',
+        'expired_at' => 'required|date|date_format:Y-m-d',
+        'image' => 'required|file|mimes:jpg,png,jpeg,webp',
+    ];
 
-    public function __construct(DBRepo $dbRepo)
+    public function main()
     {
-        $this->dbRepo = new DBRepo();
-    }
+        $dbRepo = new DBRepo();
+        $data = $dbRepo->get();
 
-    public function index(Request $request, Response $response)
-    {
-        return $this->dbRepo->getProducts();
+        return $this->successResponse('Success to get data', $data);
     }
 }

@@ -20,7 +20,7 @@ Route::middleware('jwtAuth:admin')->post('categories', [API\Categories\Create::c
 Route::middleware('jwtAuth:admin')->put('categories/{id}', [API\Categories\Update::class, 'index']);
 Route::middleware('jwtAuth:admin')->delete('categories/{id}', [API\Categories\Delete::class, 'index']);
 
-## Products
+// ## Products
 Route::middleware('jwtAuth')->get('products', [API\Products\Read::class, 'index']);
 Route::middleware('jwtAuth')->post('products', [API\Products\Create::class, 'index']);
 Route::middleware('jwtAuth')->put('products/{id}', [API\Products\Update::class, 'index']);
@@ -35,3 +35,9 @@ Route::post('login', [API\Login::class, 'index']);
 ## Login with Google
 Route::middleware(['web'])->get('oauth/register', [API\LoginGoogle::class, 'authenticateGoogle']);
 Route::middleware(['web'])->get('oauth/register/callback', [API\LoginGoogle::class, 'handleCallback']);
+
+
+## Custom 404
+Route::any('{any}', function () {
+    echo "Error 404";
+});

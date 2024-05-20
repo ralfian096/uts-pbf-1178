@@ -3,20 +3,33 @@
 namespace App\Http\Controllers\API\Products;
 
 use App\Http\Controllers\API\BaseAPI;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use App\Models\ModelProducts;
 
 class Delete extends BaseAPI
 {
-    protected DBRepo $dbRepo;
+    protected $payloadRules = [];
 
-    public function __construct(DBRepo $dbRepo)
+    public function main($id = null)
     {
-        $this->dbRepo = new DBRepo();
-    }
+        // Check id
+        $find = ModelProducts::find($id);
 
-    public function index($id = null, Request $request, Response $response)
-    {
-        return $this->dbRepo->deleteProduct($id);
+        if (!$find) {
+            return $this->errorResponse(...[
+                'message' => 'ID not found',
+                'statusCode' => 404
+            ]);
+        }
+
+        $dbRepo = new DBRepo();
+
+        $update = $dbRepo->delete($id);
+
+        if (!$update->status) {
+            return $this->errorResponse('Server error. Failed to delete data');
+        }
+
+        // Kalau validasi berhasil
+        return $this->successResponse('Success delete data');
     }
 }

@@ -4,15 +4,13 @@ namespace App\Http\Controllers\API;
 
 use App\Models\User;
 use Exception;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Laravel\Socialite\Facades\Socialite;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Session;
 
 class LoginGoogle extends Login
 {
-    public function authenticateGoogle(Request $request, Response $response)
+    public function authenticateGoogle()
     {
         Session::forget('state');
         Session::forget('code');
@@ -21,7 +19,7 @@ class LoginGoogle extends Login
         return Socialite::driver('google')->redirect();
     }
 
-    public function handleCallback(Request $request, Response $response)
+    public function handleCallback()
     {
         $userGoogle = Socialite::driver('google')->user();
 
@@ -36,12 +34,15 @@ class LoginGoogle extends Login
             $token = JWTAuth::fromUser($user);
 
             // Beri respon token
-            return $this->sendSuccessResponse('login sukses', [
+            return $this->successResponse('login sukses', [
                 'token' => $token
             ]);
         } catch (Exception $e) {
 
-            return $this->sendErrorResponse(...['message' => 'tidak bisa membuat token', 'statusCode' => 500]);
+            return $this->errorResponse(...[
+                'message' => 'tidak bisa membuat token',
+                'statusCode' => 500
+            ]);
         }
     }
 }

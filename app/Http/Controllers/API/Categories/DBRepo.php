@@ -4,60 +4,63 @@ namespace App\Http\Controllers\API\Categories;
 
 use Illuminate\Database\QueryException;
 use App\Models\ModelCategories;
-use App\Http\Controllers\API\BaseAPI;
 
-class DBRepo extends BaseAPI
+class DBRepo
 {
-    public function createCategory(array $data)
+    /**
+     * Get data from database
+     * @return array
+     */
+    public function get()
+    {
+        return (ModelCategories::all())->all();
+    }
+
+    public function create($payload = [])
     {
         // Mencoba meng-insert data
         try {
             ModelCategories::insert([
-                'name' => $data['name']
+                'name' => $payload['name']
             ]);
 
-            return $this->sendSuccessResponse('insert kategori berhasil');
+            return (object) [
+                'status' => true,
+            ];
         } catch (QueryException $e) {
 
-            return $this->sendErrorResponse(...['message' => 'kesalahan pada server. gagal insert data', 'statusCode' => 500]);
+            return (object) [
+                'status' => false,
+                'error_detail' => null
+            ];
         }
     }
 
-    public function getCategories()
-    {
-        $categories = (ModelCategories::all())->all();
-
-        return $this->sendSuccessResponse('get data berhasil', $categories);
-    }
-
-    public function deleteCategory($id = null)
+    public function delete($id = null)
     {
         // Check id
         $find = ModelCategories::find($id);
-
-        if (!$find) {
-            return $this->sendErrorResponse(...['message' => 'id tidak ditemukan', 'statusCode' => 404]);
-        }
 
         // Delete data
         try {
             $find->delete();
 
-            return $this->sendSuccessResponse('delete kategori berhasil');
+            return (object) [
+                'status' => true,
+            ];
         } catch (QueryException $e) {
 
-            return $this->sendErrorResponse(...['message' => 'kesalahan pada server. gagal delete data', 'statusCode' => 500]);
+            return (object) [
+                'status' => false,
+                'error_detail' => null
+            ];
         }
     }
 
-    public function updateCategory($id = null, array $data)
+    public function update($id = null, array $data)
     {
         // Check id
         $find = ModelCategories::find($id);
-
-        if (!$find) {
-            return $this->sendErrorResponse(...['message' => 'id tidak ditemukan', 'statusCode' => 404]);
-        }
 
         // Update data
         try {
@@ -65,10 +68,15 @@ class DBRepo extends BaseAPI
                 'name' => $data['name'],
             ]);
 
-            return $this->sendSuccessResponse('update kategori berhasil');
+            return (object) [
+                'status' => true,
+            ];
         } catch (QueryException $e) {
 
-            return $this->sendErrorResponse(...['message' => 'kesalahan pada server. gagal update data', 'statusCode' => 500]);
+            return (object) [
+                'status' => false,
+                'error_detail' => null
+            ];
         }
     }
 }

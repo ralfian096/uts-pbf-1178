@@ -3,45 +3,60 @@
 namespace App\Http\Controllers\API\Products;
 
 use App\Http\Controllers\API\BaseAPI;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Validator;
+use App\Models\ModelProducts;
+use App\Models\ModelCategories;
 
 class Update extends BaseAPI
 {
-    protected DBRepo $dbRepo;
+    protected $payloadRules = [
+        'name' => 'string|max:255',
+        'price' => 'integer|max:99999999999',
+        'expired_at' => 'date|date_format:Y-m-d',
+        'image' => 'file|mimes:jpg,png,jpeg,webp',
+    ];
 
-    public function __construct(DBRepo $dbRepo)
+    public function main($id = null)
     {
-        $this->dbRepo = new DBRepo();
-    }
+        $dbRepo = new DBRepo();
 
-    public function index($id = null, Request $request, Response $response)
-    {
-        $data = $request->all();
+        $data = $this->payload;
 
-        // Validasi data
-        $validator = $this->validateData($data);
+        // Cek product id
+        $find = ModelProducts::find($id);
 
-        if ($validator->fails()) {
-            return $this->sendErrorResponse('payload tidak valid', $validator->error(), 400);
+        if (!$find) {
+            return $this->errorResponse(...[
+                'message' => 'ID not found',
+                'statusCode' => 404
+            ]);
         }
 
-        // Kalau validasi berhasil
+        if (isset($data['category_id'])) {
+            // Check category_id
+            $checkCategoryId = ModelCategories::where('name', 'like', "%{$data['category_id']}%")->get();
+
+            if (count($checkCategoryId) <= 0) {
+                return $this->errorResponse(...[
+                    'message' => '"category_id" not found',
+                    'statusCode' => 404
+                ]);
+            }
+
+            $data['category_id'] = $checkCategoryId[0]['id'];
+        }
+
+
+        // Save image
         if (isset($data['image'])) {
-            $data['image'] = $request->file('image')->store('public');
+            $data['image'] = $this->request->file('image')->store('public');
         }
 
-        return $this->dbRepo->updateProduct($id, $data);
-    }
+        $update = $dbRepo->update($id, $data);
 
-    protected function validateData(array $data)
-    {
-        return Validator::make($data, [
-            'name' => 'string|max:255',
-            'price' => 'integer|max:99999999999',
-            'expired_at' => 'date|date_format:Y-m-d',
-            'image' => 'file|mimes:jpg,png,jpeg,webp',
-        ]);
+        if (!$update->status) {
+            return $this->errorResponse('Server error. Failed to update data');
+        }
+
+        return $this->successResponse('Success update data');
     }
 }

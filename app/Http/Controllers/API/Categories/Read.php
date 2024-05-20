@@ -3,20 +3,16 @@
 namespace App\Http\Controllers\API\Categories;
 
 use App\Http\Controllers\API\BaseAPI;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class Read extends BaseAPI
 {
-    protected DBRepo $dbRepo;
+    protected $payloadRules = [];
 
-    public function __construct(DBRepo $dbRepo)
+    public function main()
     {
-        $this->dbRepo = $dbRepo ?? new DBRepo();
-    }
+        $dbRepo = new DBRepo();
+        $data = $dbRepo->get();
 
-    public function index(Request $request, Response $response)
-    {
-        return $this->dbRepo->getCategories();
+        return $this->successResponse('Success to get data', $data);
     }
 }
