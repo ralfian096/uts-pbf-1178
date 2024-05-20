@@ -34,14 +34,11 @@ Kelas   : IF22E
 3. Composer __2.4+__
 4. MariaDB __10.4+__, MySQL __8.0+__, PostgreSQL __16.0+__
 
-> [!WARNING]
-> Jangan gunakan __Laravel versi 11__ jika anda tidak familiar dengan ekosistem Laravel
-
 <br><br>
 
 ## Composer
 
-1. Jalankan perintah berikut di dalam direktori __*core/*__:
+1. Jalankan perintah berikut untuk men-download dependency laravel:
 
 ```bash
 composer update
@@ -163,7 +160,7 @@ GOOGLE_CALLBACK_URL=xxx     // Isi dengan <redirect_uri> anda dari file .json
 
 ## Development server
 
-1. Jalankan Laravel development server dengan perintah berikut di dalam direktori __*core/*__:
+1. Jalankan Laravel development server dengan perintah berikut:
 
 ```bash
 php artisan serve
