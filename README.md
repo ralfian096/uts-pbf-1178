@@ -1,12 +1,14 @@
 # uts-pbf-1178
 Project membuat REST API sederhana menggunakan Laravel dengan Migration dan Seeder untuk konfigurasi database, otentikasi JWT dan OAuth Google.
 
-## Identitas
-Nama    : Muhammad Rifky Alfian
 <br>
-NIM     : 22416255201178
-<br>
-Kelas   : IF22E
+
+## Owner identity
+||||
+|----|----|----|
+|Nama|:|Muhammad Rifky Alfian|
+|NIM|:|22416255201178|
+|Kelas|:|IF22E|
 
 <br><br>
 ## Endpoint API
