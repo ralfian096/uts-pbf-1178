@@ -2,17 +2,20 @@
 
 namespace App\Http\Controllers\API\Products;
 
-use App\Http\Controllers\BaseAPI;
-use App\Models\ModelCategories;
-use App\Models\ModelProducts;
+use App\Http\Controllers\API\BaseAPI;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Database\QueryException;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 class Update extends BaseAPI
 {
+    protected DBRepo $dbRepo;
+
+    public function __construct(DBRepo $dbRepo)
+    {
+        $this->dbRepo = new DBRepo();
+    }
+
     public function index($id = null, Request $request, Response $response)
     {
         $data = $request->all();
@@ -29,43 +32,7 @@ class Update extends BaseAPI
             $data['image'] = $request->file('image')->store('public');
         }
 
-        return $this->updateProduct($id, $data);
-    }
-
-    protected function updateProduct($id = null, array $data)
-    {
-        // Cek id
-        $find = ModelProducts::find($id);
-
-        if (!$find) {
-            return $this->sendErrorResponse(...['message' => 'id tidak ditemukan', 'statusCode' => 404]);
-        }
-
-        // Ambil email dari JWT
-        $client = JWTAuth::parseToken()->authenticate();
-
-        if (isset($data['category_id'])) {
-            // Check category_id
-            $checkCategoryId = ModelCategories::where('name', 'like', "%{$data['category_id']}%")->get();
-
-            if (count($checkCategoryId) <= 0) {
-                return $this->sendErrorResponse(...['message' => '"category_id" tidak tersedia', 'statusCode' => 404]);
-            }
-
-            $data['category_id'] = $checkCategoryId[0]['id'];
-        }
-
-        $data['modified_by'] = $client->email;
-
-        // Mencoba meng-update data
-        try {
-            $find->update($data);
-
-            return $this->sendSuccessResponse('update produk berhasil');
-        } catch (QueryException $e) {
-
-            return $this->sendErrorResponse('kesalahan pada server. gagal update data', [$e->getMessage()], 500);
-        }
+        return $this->dbRepo->updateProduct($id, $data);
     }
 
     protected function validateData(array $data)

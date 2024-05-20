@@ -2,15 +2,20 @@
 
 namespace App\Http\Controllers\API\Categories;
 
-use App\Http\Controllers\BaseAPI;
-use App\Models\ModelCategories;
-use Illuminate\Database\QueryException;
+use App\Http\Controllers\API\BaseAPI;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 
 class Create extends BaseAPI
 {
+    protected DBRepo $dbRepo;
+
+    public function __construct(DBRepo $dbRepo)
+    {
+        $this->dbRepo = $dbRepo ?? new DBRepo();
+    }
+
     public function index(Request $request, Response $response)
     {
         $data = $request->all();
@@ -23,22 +28,7 @@ class Create extends BaseAPI
         }
 
         // Kalau validasi berhasil
-        return $this->createCategory($data);
-    }
-
-    protected function createCategory(array $data)
-    {
-        // Mencoba meng-insert data
-        try {
-            ModelCategories::insert([
-                'name' => $data['name']
-            ]);
-
-            return $this->sendSuccessResponse('insert kategori berhasil');
-        } catch (QueryException $e) {
-
-            return $this->sendErrorResponse(...['message' => 'kesalahan pada server. gagal insert data', 'statusCode' => 500]);
-        }
+        return $this->dbRepo->createCategory($data);
     }
 
     protected function validateData(array $data)

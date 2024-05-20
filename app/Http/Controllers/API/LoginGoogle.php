@@ -36,14 +36,12 @@ class LoginGoogle extends Login
             $token = JWTAuth::fromUser($user);
 
             // Beri respon token
-            return response()->json([
+            return $this->sendSuccessResponse('login sukses', [
                 'token' => $token
             ]);
         } catch (Exception $e) {
 
-            return response()->json([
-                'message' => 'tidak bisa membuat token'
-            ]);
+            return $this->sendErrorResponse(...['message' => 'tidak bisa membuat token', 'statusCode' => 500]);
         }
     }
 }

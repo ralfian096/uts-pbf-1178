@@ -2,22 +2,21 @@
 
 namespace App\Http\Controllers\API\Products;
 
-use App\Http\Controllers\BaseAPI;
-use App\Models\ModelProducts;
+use App\Http\Controllers\API\BaseAPI;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class Read extends BaseAPI
 {
-    public function index(Request $request, Response $response)
+    protected DBRepo $dbRepo;
+
+    public function __construct(DBRepo $dbRepo)
     {
-        return $this->getProducts();
+        $this->dbRepo = new DBRepo();
     }
 
-    protected function getProducts()
+    public function index(Request $request, Response $response)
     {
-        $products = (ModelProducts::all())->all();
-
-        return $this->sendSuccessResponse('get data berhasil', $products);
+        return $this->dbRepo->getProducts();
     }
 }

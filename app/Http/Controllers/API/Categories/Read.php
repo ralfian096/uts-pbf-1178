@@ -2,22 +2,21 @@
 
 namespace App\Http\Controllers\API\Categories;
 
-use App\Http\Controllers\BaseAPI;
-use App\Models\ModelCategories;
+use App\Http\Controllers\API\BaseAPI;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class Read extends BaseAPI
 {
-    public function index(Request $request, Response $response)
+    protected DBRepo $dbRepo;
+
+    public function __construct(DBRepo $dbRepo)
     {
-        return $this->getCategories();
+        $this->dbRepo = $dbRepo ?? new DBRepo();
     }
 
-    protected function getCategories()
+    public function index(Request $request, Response $response)
     {
-        $categories = (ModelCategories::all())->all();
-
-        return $this->sendSuccessResponse('get data berhasil', $categories);
+        return $this->dbRepo->getCategories();
     }
 }

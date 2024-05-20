@@ -2,15 +2,20 @@
 
 namespace App\Http\Controllers\API\Categories;
 
-use App\Http\Controllers\BaseAPI;
-use App\Models\ModelCategories;
-use Illuminate\Database\QueryException;
+use App\Http\Controllers\API\BaseAPI;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 
 class Update extends BaseAPI
 {
+    protected DBRepo $dbRepo;
+
+    public function __construct(DBRepo $dbRepo)
+    {
+        $this->dbRepo = $dbRepo ?? new DBRepo();
+    }
+
     public function index($id = null, Request $request, Response $response)
     {
         $data = $request->all();
@@ -23,29 +28,7 @@ class Update extends BaseAPI
         }
 
         // Kalau validasi berhasil
-        return $this->updateCategory($id, $data);
-    }
-
-    protected function updateCategory($id = null, array $data)
-    {
-        // Check id
-        $find = ModelCategories::find($id);
-
-        if (!$find) {
-            return $this->sendErrorResponse(...['message' => 'id tidak ditemukan', 'statusCode' => 404]);
-        }
-
-        // Update data
-        try {
-            $find->update([
-                'name' => $data['name'],
-            ]);
-
-            return $this->sendSuccessResponse('update kategori berhasil');
-        } catch (QueryException $e) {
-
-            return $this->sendErrorResponse(...['message' => 'kesalahan pada server. gagal update data', 'statusCode' => 500]);
-        }
+        return $this->dbRepo->updateCategory($id, $data);
     }
 
     protected function validateData(array $data)
