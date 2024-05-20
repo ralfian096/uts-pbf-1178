@@ -15,15 +15,15 @@ use App\Http\Controllers\API;
 */
 
 ## Categories
-Route::middleware('jwtAuth')->get('categories', [API\Categories\Get::class, 'index']);
-Route::middleware('jwtAuth:admin')->post('categories', [API\Categories\Post::class, 'index']);
-Route::middleware('jwtAuth:admin')->put('categories/{id}', [API\Categories\Put::class, 'index']);
+Route::middleware('jwtAuth')->get('categories', [API\Categories\Read::class, 'index']);
+Route::middleware('jwtAuth:admin')->post('categories', [API\Categories\Create::class, 'index']);
+Route::middleware('jwtAuth:admin')->put('categories/{id}', [API\Categories\Update::class, 'index']);
 Route::middleware('jwtAuth:admin')->delete('categories/{id}', [API\Categories\Delete::class, 'index']);
 
 ## Products
-Route::middleware('jwtAuth')->get('products', [API\Products\Get::class, 'index']);
-Route::middleware('jwtAuth')->post('products', [API\Products\Post::class, 'index']);
-Route::middleware('jwtAuth')->put('products/{id}', [API\Products\Put::class, 'index']);
+Route::middleware('jwtAuth')->get('products', [API\Products\Read::class, 'index']);
+Route::middleware('jwtAuth')->post('products', [API\Products\Create::class, 'index']);
+Route::middleware('jwtAuth')->put('products/{id}', [API\Products\Update::class, 'index']);
 Route::middleware('jwtAuth')->delete('products/{id}', [API\Products\Delete::class, 'index']);
 
 ## Register

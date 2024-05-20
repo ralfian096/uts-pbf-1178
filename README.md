@@ -1,175 +1,66 @@
-# lrvl-tmp
-Project membuat REST API sederhana menggunakan Laravel dengan Migration dan Seeder untuk konfigurasi database, otentikasi JWT dan OAuth Google.
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<br><br>
-## Endpoint API
-```
-├── [GET] /api/categories/               # Request data kategori dengan method GET
-├── [POST] /api/categories/              # Insert data baru kategori dengan method POST
-├── [PUT] /api/categories/{id}           # Update data kategori dengan method PUT
-├── [DELETE] /api/categories/{id}        # Delete data kategori dengan method DELETE
-.
-├── [GET] /api/products/                 # Request data produk dengan method GET
-├── [POST] /api/products/                # Insert data baru produk dengan method POST
-├── [PUT] /api/products/{id}             # Update data produk dengan method PUT
-├── [DELETE] /api/products/{id}          # Delete data produk dengan method DELETE
-.
-├── [POST] /api/register/                # Register akun baru
-├── [POST] /api/login/                   # Otentikasi akun menggunakan username dan password untuk mendapatkan JWT
-├── [GET] /api/oauth/register/           # URI untuk memulai google oauth
-```
+<p align="center">
+<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+</p>
 
-<br><br>
-## Kebutuhan
+## About Laravel
 
-1. PHP __8.0+__
-2. Laravel __9.1+__
-3. Composer __2.4+__
-4. MariaDB __10.4+__, MySQL __8.0+__, PostgreSQL __16.0+__
+Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-> [!WARNING]
-> Jangan gunakan __Laravel versi 11__ jika anda tidak familiar dengan ekosistem Laravel
+- [Simple, fast routing engine](https://laravel.com/docs/routing).
+- [Powerful dependency injection container](https://laravel.com/docs/container).
+- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
+- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
+- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
+- [Robust background job processing](https://laravel.com/docs/queues).
+- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-<br><br>
+Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Composer
+## Learning Laravel
 
-1. Jalankan perintah berikut di dalam direktori __*core/*__:
+Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-```bash
-composer update
-```
+You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
 
-2. Secara otomatis composer akan membuat direktori __*vendor/*__
+If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-<br><br>
+## Laravel Sponsors
 
-## Konfigurasi
+We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
 
-### Konfigurasi database
+### Premium Partners
 
-1. Buka file environment di __*core/.env.example*__
-2. Ganti nama file menjadi __*core/.env*__
-3. Pergi ke baris berikut:
+- **[Vehikl](https://vehikl.com/)**
+- **[Tighten Co.](https://tighten.co)**
+- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
+- **[64 Robots](https://64robots.com)**
+- **[Cubet Techno Labs](https://cubettech.com)**
+- **[Cyber-Duck](https://cyber-duck.co.uk)**
+- **[Many](https://www.many.co.uk)**
+- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
+- **[DevSquad](https://devsquad.com)**
+- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
+- **[OP.GG](https://op.gg)**
+- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
+- **[Lendio](https://lendio.com)**
 
-```env
-DB_CONNECTION=mysql     # Driver database yang digunakan (mysql, mariadb, pgsql)
-DB_HOST=localhost       # Host database (default: localhost)
-DB_PORT=3306            # Port database (default mysql & mariadb: 3306, default postgresql: 5432)
-DB_DATABASE=laravel     # Nama database
-DB_USERNAME=root        # Username database
-DB_PASSWORD=            # Password database
-```
+## Contributing
 
-4. Ganti sesuai dengan nama database dan driver database yang digunakan
-5. Selesai
+Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-### Konfigurasi Migration dan Seeding
+## Code of Conduct
 
-1. Jalankan perintah berikut untuk membuat tabel di database yang digunakan:
+In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-```bash
-php artisan migrate
-```
+## Security Vulnerabilities
 
-2. Jalankan perintah berikut untuk seeding ke tabel *users* di database:
+If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-```bash
-php artisan db:seed --class=AdminSeeder
-```
+## License
 
-### Konfigurasi JSON Web Token (JWT) *tymon/jwt-auth*
-
-1. Publish konfigurasi JWT menggunakan perintah artisan:
-
-```bash
-php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServiceProvider"
-```
-
-2. Generate secret key untuk JWT:
-
-```bash
-php artisan jwt:secret
-```
-
-<br><br>
-
-## Google OAUTH
-
-Konfigurasi Google OAUTH untuk mendukung login menggunakan google oauth
-
-### Membuat project Google Cloud
-
-1. Buka <a href="https://console.cloud.google.com">Google Cloud Console</a>
-2. Buat project Google Cloud baru <a href="https://console.cloud.google.com/projectcreate">disini</a>
-
-### Mendaftarkan aplikasi ke Google Cloud
-
-1. Buka menu __*APIs & Services > OAuth consent screen*__, anda bisa membuka menu <a href="https://console.cloud.google.com/apis/credentials/consent">disini</a>
-2. Pilih *User Type* "External"
-3. Isi kolom *App name*, *User support email*, dan *Email addresses*
-4. Anda bisa men-skip tahap __*Scopes*__, __*Test Users*__, dan __*Summary*__ dengan meng-klik tombol "SAVE AND CONTINUE" dibagian bawah form untuk mempercepat proses
-
-### Mendapatkan Google Client ID & Client Secret
-
-1. Buka menu __*APIs & Services > Credentials*__, anda bisa membuka menu <a href="https://console.cloud.google.com/apis/credentials">disini</a>
-2. Klik tombol "CREATE CREDENTIALS"
-3. Pilih menu "OAuth Client ID"
-4. Pilih "Web Application" untuk kolom *Application type*
-5. Isi kolom *Name*
-6. Pada bagian __*Authorized redirect URIs*__ klik tombol "ADD URI"
-7. Isi kolom *URIs* dengan URL lengkap untuk menerima callback dari Google OAuth
-8. Klik tombol "CREATE" untuk menyimpan konfigurasi
-9. Klik tombol "DOWNLOAD JSON" untuk mendapatkan Google Client ID dan Client Secret
-10. File .json akan berisi data seperti berikut:
-
-```json
-{
-  "web": {
-    "client_id": <client-id>,
-    "project_id": "",
-    "auth_uri": "",
-    "token_uri": "",
-    "auth_provider_x509_cert_url": "",
-    "client_secret": <client-secret>,
-    "redirect_uris": [
-      <redirect_uri>
-    ]
-  }
-}
-```
-
-11. Buka file konfigurasi environment di __*core/.env*__
-12. Pergi ke baris berikut, lalu isi dengan value dari file .json yang anda download tadi:
-
-```env
-GOOGLE_CLIENT_ID=xxx        // Isi dengan <client-id> anda dari file .json
-GOOGLE_CLIENT_SECRET=xxx    // Isi dengan <client-secret> anda dari file .json
-GOOGLE_CALLBACK_URL=xxx     // Isi dengan <redirect_uri> anda dari file .json
-```
-> [!TIP]
-> Google tidak mendukung penggunaan Otentikasi OAuth dilokal server (localhost), jadi
-> Anda harus meng-upload project ke hosting terlebih dahulu
-
-
-<br><br>
-
-## Development server
-
-1. Jalankan Laravel development server dengan perintah berikut di dalam direktori __*core/*__:
-
-```bash
-php artisan serve
-```
-
-2. Artisan akan memberikan respon default seperti berikut:
-
-```bash
-INFO  Server running on [http://127.0.0.1:8000]
-Press Ctrl+C to stop the server
-```
-
-<br><br>
-
-> [!TIP]
-> Silakan gunakan file __*LRVL_TMP.postman_collection.json*__ untuk meng-import collection saat testing menggunakan postman.
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
