@@ -174,8 +174,3 @@ php artisan serve
 INFO  Server running on [http://127.0.0.1:8000]
 Press Ctrl+C to stop the server
 ```
-
-<br><br>
-
-> [!TIP]
-> Silakan gunakan file __*LRVL_TMP.postman_collection.json*__ untuk meng-import collection saat testing menggunakan postman.
