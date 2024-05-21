@@ -54,8 +54,8 @@ composer update
 
 ### Konfigurasi database
 
-1. Buka file environment di __*core/.env.example*__
-2. Ganti nama file menjadi __*core/.env*__
+1. Buka file environment di __*.env.example*__
+2. Ganti nama file menjadi __*.env*__
 3. Pergi ke baris berikut:
 
 ```env
