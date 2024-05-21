@@ -145,7 +145,7 @@ Konfigurasi Google OAUTH untuk mendukung login menggunakan google oauth
 }
 ```
 
-11. Buka file konfigurasi environment di __*core/.env*__
+11. Buka file konfigurasi environment di __*.env*__
 12. Pergi ke baris berikut, lalu isi dengan value dari file .json yang anda download tadi:
 
 ```env
@@ -154,7 +154,7 @@ GOOGLE_CLIENT_SECRET=xxx    // Isi dengan <client-secret> anda dari file .json
 GOOGLE_CALLBACK_URL=xxx     // Isi dengan <redirect_uri> anda dari file .json
 ```
 > [!TIP]
-> Google tidak mendukung penggunaan Otentikasi OAuth dilokal server (localhost), jadi
+> Google biasanya tidak mendukung penggunaan Otentikasi OAuth dilokal server (localhost), jadi
 > Anda harus meng-upload project ke hosting terlebih dahulu
 
 
